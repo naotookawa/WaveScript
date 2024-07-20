@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+import os
 
 app = FastAPI()
 
@@ -23,7 +24,7 @@ async def read_root():
 
 @app.post("/generate_script")
 async def generate_script(prompt: Prompt):
-    api_key = ''
+    api_key = os.getenv('OPEN_API_KEY')
     url = 'https://api.openai.com/v1/chat/completions'
 
     headers = {
