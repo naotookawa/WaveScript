@@ -4,6 +4,10 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
 
 app = FastAPI()
 
@@ -24,7 +28,6 @@ async def read_root():
 
 @app.post("/generate_script")
 async def generate_script(prompt: Prompt):
-    api_key = os.getenv('OPEN_API_KEY')
     url = 'https://api.openai.com/v1/chat/completions'
 
     headers = {
@@ -48,6 +51,3 @@ async def generate_script(prompt: Prompt):
         return {"script": script}
     else:
         raise HTTPException(status_code=response.status_code, detail=response.text)
-    # プロンプトに基づいてラジオ番組の脚本を生成するロジックを追加
-    # script = f"Generated script based on prompt: {prompt.prompt}"
-    # return {"script": script}
